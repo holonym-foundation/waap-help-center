@@ -1,0 +1,42 @@
+# Security
+
+How WaaP keeps your funds safe.
+
+## Two-Party Computation (2PC)
+
+Your private key never exists in one place. WaaP splits signing authority:
+
+| Share | Location | Can sign alone? |
+|-------|----------|-----------------|
+| Your share | Your device | No |
+| Network share | Decentralized network | No |
+
+Both shares are required to sign any transaction. This means:
+- If your device is compromised, attackers can't move funds
+- If the network is compromised, attackers can't move funds
+- Only you can authorize transactions
+
+## No Seed Phrases
+
+Seed phrases are the #1 attack vector in crypto. WaaP eliminates them entirely:
+- Nothing to write down
+- Nothing to store insecurely
+- Nothing to get phished
+
+## Transaction Scanning
+
+Before you sign, WaaP scans transactions for:
+- Malicious contracts
+- Phishing attempts
+- Unusual patterns
+
+Powered by [Blockaid](https://blockaid.io) security infrastructure.
+
+## Recovery
+
+Lost access to your login method? WaaP supports multiple recovery paths:
+- Additional verified login methods
+- Recovery contacts
+- Time-delayed recovery
+
+[Learn more about recovery](/troubleshooting/recovery)

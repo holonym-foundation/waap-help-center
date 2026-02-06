@@ -1,0 +1,51 @@
+# Frequently Asked Questions
+
+## General
+
+### What is WaaP?
+
+WaaP (Wallet as a Protocol) is a self-custodial wallet that doesn't require seed phrases. It uses two-party computation to split your keys between your device and a decentralized network, so no single party can access your funds.
+
+### Is WaaP free?
+
+Yes. WaaP is free for users. You only pay network gas fees for transactions.
+
+### What chains does WaaP support?
+
+WaaP supports EVM chains (Ethereum, Optimism, Base, Arbitrum, Polygon, etc.) and Sui. More chains are coming.
+
+## Security
+
+### Where are my keys stored?
+
+Your keys are split into two shares:
+- One share on your device (derived from your login)
+- One share on the decentralized WaaP network
+
+Neither share alone can sign transactions.
+
+### What if I lose my phone?
+
+You can recover access using any login method you've set up (email, phone, Google, etc.). We recommend setting up multiple methods.
+
+### Can WaaP access my funds?
+
+No. WaaP only holds one share of your key. Without your share, no one — including WaaP — can move your funds.
+
+### Is WaaP audited?
+
+Yes. WaaP has been audited by Cure53, Hexens, Least Authority, and Halborn.
+
+## Using WaaP
+
+### How do I back up my wallet?
+
+You don't need to. Your wallet is tied to your login credentials. As long as you can log in, you have access.
+
+### Can I use WaaP with hardware wallets?
+
+WaaP is designed to provide hardware-wallet-level security without a physical device. Hardware wallet integration is not currently supported.
+
+### How do I export my keys?
+
+Key export is available for users who need it. This generates a standard private key you can import elsewhere. Note: once exported, your security model changes to a traditional single-key setup.
