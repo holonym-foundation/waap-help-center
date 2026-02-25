@@ -1,8 +1,5 @@
 export default {
-  index: {
-    title: 'Help Center',
-    type: 'page',
-  },
+  index: 'Welcome',
   'getting-started': 'Getting Started',
   wallet: 'Using Your Wallet',
   security: 'Security',
