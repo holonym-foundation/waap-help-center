@@ -4,5 +4,17 @@
   "wallet": "Using Your Wallet",
   "security": "Security",
   "troubleshooting": "Troubleshooting",
-  "faq": "FAQ"
+  "faq": "FAQ",
+  "docs-link": {
+    "title": "Docs",
+    "type": "page",
+    "href": "https://docs.waap.xyz",
+    "newWindow": true
+  },
+  "blog-link": {
+    "title": "Blog",
+    "type": "page",
+    "href": "https://human.tech/blog",
+    "newWindow": true
+  }
 }
