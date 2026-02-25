@@ -57,21 +57,13 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
-      <Head color={{ hue: 40 }}>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </Head>
+      <Head faviconGlyph="" />
       <body>
         <IntercomMessenger />
         <Layout
           navbar={navbar}
           pageMap={await getPageMap()}
-          sidebar={{
-            defaultMenuCollapseLevel: 1,
-            toggleButton: true,
-          }}
-          toc={{
-            backToTop: true,
-          }}
+          sidebar={{ defaultMenuCollapseLevel: 1 }}
           editLink={null}
           feedback={{ content: null }}
           footer={footer}
