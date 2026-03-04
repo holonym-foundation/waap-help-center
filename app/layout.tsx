@@ -7,6 +7,7 @@ import type { ReactNode } from 'react'
 import { IntercomMessenger } from './intercom'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://support.waap.xyz'),
   title: {
     default: 'WaaP Help Center',
     template: '%s – WaaP Help',
@@ -15,6 +16,17 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'WaaP Help Center',
     description: 'Support and documentation for WaaP',
+    url: 'https://support.waap.xyz',
+    siteName: 'WaaP Help Center',
+    images: ['/img/social-card.png'],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'WaaP Help Center',
+    description: 'Support and documentation for WaaP',
+    site: '@waapxyz',
+    images: ['/img/social-card.png'],
   },
   icons: {
     icon: '/img/wally-favicon.svg',
