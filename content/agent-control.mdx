@@ -1,0 +1,66 @@
+# How do I stay in control of my agent?
+
+Your agent acts on its own for routine work. For anything risky, it pauses and asks you to approve.
+
+## What triggers an approval
+
+The agent stops and asks when it tries to:
+
+- Spend more than your daily limit
+- Send a large amount in a single transaction
+- Interact with a contract it hasn't used before
+- Sign something the transaction simulator flags as suspicious
+
+For low-risk routine operations, the agent transacts without pausing.
+
+## Where you get notified
+
+Telegram is the recommended channel — fast, on your phone, with one-tap Approve / Deny:
+
+1. Start the WaaP Telegram bot at [@waap_xyz_bot](https://t.me/waap_xyz_bot)
+2. Enable it as your approval channel:
+
+   ```bash
+   waap-cli 2fa enable --telegram YOUR_TELEGRAM_ID
+   ```
+
+3. Test by sending a transaction that exceeds your daily limit.
+
+Other supported channels: email, SMS, external hardware wallet.
+
+## Tightening control
+
+You decide how strict the rules are. Common patterns:
+
+Set a daily spend cap — anything above it requires approval:
+
+```bash
+waap-cli policy set --daily-limit 50
+```
+
+Lower the risk threshold so even smaller transactions trigger approval:
+
+```bash
+waap-cli policy set --min-risk-for-2fa LowWarn
+```
+
+Require approval on every transaction by setting the daily limit to zero:
+
+```bash
+waap-cli policy set --daily-limit 0
+```
+
+By default, new accounts have no daily limit and 2FA is disabled — so set both up before letting your agent run on mainnet.
+
+## Stopping your agent
+
+WaaP doesn't currently have a one-click revoke for an active Privilege. To stop your agent immediately:
+
+- Set your daily limit to `0` (every transaction will require approval)
+- Active Privileges expire on their own (max 2 hours)
+- For a permanent stop, shut down the agent process itself
+
+## More
+
+- [Approvals & Notifications](https://docs.waap.xyz/for-agents/concepts/approvals-and-notifications)
+- [Policy Controls](https://docs.waap.xyz/for-agents/concepts/policy-controls)
