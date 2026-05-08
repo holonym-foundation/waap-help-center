@@ -5,6 +5,7 @@ export default {
   security: 'Security',
   troubleshooting: 'Troubleshooting',
   faq: 'FAQ',
+  agents: 'For Agents',
   'docs-link': {
     title: 'Docs',
     type: 'page',
