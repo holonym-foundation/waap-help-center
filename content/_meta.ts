@@ -6,6 +6,7 @@ export default {
   troubleshooting: 'Troubleshooting',
   faq: 'FAQ',
   agents: 'For Agents',
+  privileges: 'What is a Privilege?',
   'docs-link': {
     title: 'Docs',
     type: 'page',
