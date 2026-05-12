@@ -4,15 +4,15 @@
 
 ### What is WaaP?
 
-WaaP (Wallet as a Protocol) is a self-custodial wallet that doesn't require seed phrases. It uses two-party computation to split your keys between your device and a decentralized network, so no single party can access your funds.
+WaaP (Wallet as a Protocol) is a self-custodial wallet that doesn't require seed phrases. It uses two-party computation to split your keys between your device and a secure network, so no single party can access your funds.
 
 ### Is WaaP free?
 
-Yes. WaaP is free for users. You only pay network gas fees for transactions.
+WaaP is free for end users — you only pay network gas fees for transactions. For developers, WaaP is free to integrate with a revenue-share model (no per-seat or per-signature billing). Agent and CLI usage may have separate pricing — check [waap.xyz](https://waap.xyz) for current details.
 
 ### What chains does WaaP support?
 
-WaaP supports EVM chains (Ethereum, Optimism, Base, Arbitrum, Polygon, etc.) and Sui. More chains are coming.
+WaaP supports EVM chains (Ethereum, Optimism, Base, Arbitrum, Polygon, and more), Sui, and Stellar (as a signer). Solana support is planned.
 
 ## Security
 
@@ -32,9 +32,6 @@ You can recover access using any login method you've set up (email, phone, Googl
 
 No. WaaP only holds one share of your key. Without your share, no one — including WaaP — can move your funds.
 
-### Is WaaP audited?
-
-Yes. WaaP has been audited by Cure53, Hexens, Least Authority, and Halborn.
 
 ## Using WaaP
 
@@ -49,3 +46,36 @@ WaaP is designed to provide hardware-wallet-level security without a physical de
 ### How do I export my keys?
 
 Key export is available for users who need it. This generates a standard private key you can import elsewhere. Note: once exported, your security model changes to a traditional single-key setup.
+
+## WaaP for Agents
+
+### Can my WaaP wallet be used by AI agents?
+
+Yes. WaaP provides a headless CLI (`@human.tech/waap-cli`) for AI agents and scripts. Agents sign up with email + password, get a standard wallet address, and can send transactions, sign messages, and query balances — all from the command line. Install with `npm install -g @human.tech/waap-cli@latest`.
+
+### How do I control what my agent can do?
+
+WaaP has a layered security model for agents:
+
+- **Policies** — Set daily spend limits and auto-approve rules for low-risk operations (`waap-cli policy set --daily-spend-limit 500`)
+- **2FA** — Enable two-factor authentication so high-risk transactions require your approval via Telegram, email, phone, or hardware wallet (`waap-cli 2fa enable --telegram <chat_id>`)
+- **Privileges** — Scoped, time-limited tokens (max 2 hours) that let an agent bypass 2FA for pre-approved operations within defined constraints
+
+New accounts start with 2FA disabled. If you want fully autonomous agent operation within policy limits, you don't need to enable 2FA. For high-value operations, enable 2FA to stay in the loop.
+
+### What is a Privilege?
+
+A Privilege (formerly Permission Token) is a scoped, time-bounded token that lets an agent or dApp bypass 2FA for specific operations. You define the constraints:
+
+- **Allowed addresses** — which recipients the agent can send to
+- **Chain** — which network the token is valid for
+- **Spend limit** — maximum USD value across all transactions under this token
+- **Duration** — how long the token lasts (max 2 hours, enforced server-side)
+
+Once granted, transactions matching the scope are signed automatically. If 2FA is disabled on your account, Privileges are unnecessary — the agent can already transact freely within policy limits.
+
+### How do I approve or revoke my agent's access?
+
+- **To approve:** When 2FA is enabled and your agent attempts a transaction that exceeds policy limits, you'll receive an approval request via your chosen 2FA method (Telegram, email, phone, or hardware wallet). Approve or deny from there.
+- **To revoke:** Disable the agent's session by changing the account password, or adjust policies with `waap-cli policy set`. Privileges expire automatically after their duration (max 2 hours).
+- **To shut down:** Run `waap-cli logout` on the agent, or change the account password to invalidate all sessions.
