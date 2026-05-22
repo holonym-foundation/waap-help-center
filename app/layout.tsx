@@ -4,7 +4,6 @@ import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
-import { IntercomMessenger } from './intercom'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://support.waap.xyz'),
@@ -63,7 +62,7 @@ export default async function RootLayout({
     <html lang="en" dir="ltr" suppressHydrationWarning>
       <Head faviconGlyph="" />
       <body>
-        <IntercomMessenger />
+        <script src="https://iris-v2-fqgd.onrender.com/widget/iris-widget.js" data-iris-key="waap" async />
         <Layout
           navbar={navbar}
           pageMap={await getPageMap()}
