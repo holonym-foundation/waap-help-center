@@ -48,7 +48,7 @@ const logo = (
 const navbar = (
   <Navbar
     logo={logo}
-    chatLink="https://discord.com/invite/zfGqjA5pxU"
+    chatLink="https://discord.gg/humantech"
   />
 )
 
@@ -75,6 +75,7 @@ export default async function RootLayout({
         </Layout>
         <Script
           src="https://iris-v2-fqgd.onrender.com/widget/iris-widget.js"
+          data-iris-key="waap"
           strategy="afterInteractive"
         />
       </body>
