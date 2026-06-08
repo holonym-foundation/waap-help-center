@@ -18,17 +18,17 @@ An AI agent with its own WaaP wallet can hold a Privilege scoped to specific ope
 
 For each Privilege, you define:
 
-- **Allowed addresses** — which contracts or recipients can receive transactions
-- **Spend cap** — cumulative USD amount across all transactions under this Privilege
-- **Chain** — which EVM chain the Privilege is valid on
-- **Duration** — up to 2 hours per Privilege
+- **Allowed addresses**: which contracts or recipients can receive transactions
+- **Spend cap**: cumulative USD amount across all transactions under this Privilege
+- **Chain**: which EVM chain the Privilege is valid on
+- **Duration**: up to 2 hours per Privilege
 
 ## Safety properties
 
-- Privileges expire automatically — no permanent grant
+- Privileges expire automatically, with no permanent grant
 - Each Privilege is bound to a specific dApp domain (server-enforced)
 - Outside the Privilege bounds, normal 2FA and policy rules apply
 
-Privileges are currently available for EVM chains.
+Privileges work on EVM chains.
 
 [More on Privileges →](https://docs.waap.xyz/for-apps/privilege)

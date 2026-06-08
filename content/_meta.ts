@@ -6,8 +6,8 @@ export default {
   troubleshooting: 'Troubleshooting',
   faq: 'FAQ',
   agents: 'For Agents',
-  privileges: 'What is a Privilege?',
-  'agent-control': 'Staying in control of your agent',
+  privileges: 'Privileges',
+  'agent-control': 'Agent Control',
   'docs-link': {
     title: 'Docs',
     type: 'page',

@@ -26,7 +26,7 @@ These belong on other surfaces. Don't duplicate.
 ## Style and voice
 
 - **Conversational, lifecycle-help tone.** Not marketing, not technical reference.
-- **One command max per article.** If an article needs more, link to docs.
+- **Keep commands minimal.** Multiple are fine when each shows a distinct control; if an article sprawls, link to docs instead.
 - **No cryptography explained.** That's docs territory. State what something does, not how it works mathematically.
 - **Brand term: "Privileges"** (not "Permission Tokens" — that's the deprecated internal name).
 - **`human.tech` lowercase with the dot.**
