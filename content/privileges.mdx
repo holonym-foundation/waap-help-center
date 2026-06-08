@@ -1,0 +1,34 @@
+# What is a Privilege?
+
+A Privilege lets a dApp or AI agent transact on your behalf within limits you set, for a set window of time. You approve it once, instead of signing off on every individual action.
+
+You'll see Privileges in two contexts:
+
+## Approving a dApp (browser apps)
+
+A dApp asks you to approve a Privilege with specific bounds. Once you approve, qualifying transactions sign automatically in the background until the Privilege expires.
+
+Example: a gaming dApp requests a Privilege to spend up to $50 over 1 hour, on a specific chain, to a few approved contracts. You approve once, and the next 30 in-game actions don't prompt you for a signature each time.
+
+## Granting an AI agent (CLI flows)
+
+An AI agent with its own WaaP wallet can hold a Privilege scoped to specific operations. The agent transacts within the Privilege without 2FA prompts. Outside the Privilege, you get notified.
+
+## What you control
+
+For each Privilege, you define:
+
+- **Allowed addresses**: which contracts or recipients can receive transactions
+- **Spend cap**: cumulative USD amount across all transactions under this Privilege
+- **Chain**: which EVM chain the Privilege is valid on
+- **Duration**: up to 2 hours per Privilege
+
+## Built-in safety
+
+- Privileges expire automatically, with no permanent grant
+- Each Privilege is bound to a specific dApp domain (server-enforced)
+- Outside the Privilege bounds, normal 2FA and policy rules apply
+
+Privileges work on EVM chains.
+
+[More on Privileges →](https://docs.waap.xyz/for-apps/privilege)

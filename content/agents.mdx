@@ -1,0 +1,32 @@
+# Can my WaaP wallet be used for agents?
+
+Yes. You stay in control.
+
+There are two ways AI agents can use WaaP:
+
+## Give an agent access to your wallet
+
+Use **Privileges** to grant an AI agent scoped, time-bounded access to act on your behalf. You set the bounds:
+
+- Which addresses the agent can transact with
+- How much it can spend (cumulative USD limit)
+- Which chain it applies to
+- How long the access lasts (up to 2 hours per Privilege)
+
+Within those bounds, your agent operates without prompting you for every action. Outside them, you get a notification and decide.
+
+[What is a Privilege? →](/privileges)
+
+## Run an agent with its own WaaP wallet
+
+For developers building autonomous agents, WaaP ships a headless CLI that gives the agent its own self-custodial wallet. Same 2PC security as a personal WaaP wallet, with the same Privileges and policy controls.
+
+[WaaP for Agents →](https://docs.waap.xyz/for-agents)
+
+## Built-in safety
+
+However your agent uses WaaP:
+
+- **You always own the keys.** 2PC ensures neither WaaP nor the agent can sign without you.
+- **2FA on high-risk transactions.** When enabled, transactions outside your policies require approval via Telegram, email, SMS, or hardware wallet.
+- **Transaction scanning.** Transactions are simulated for malicious payloads before signing.
