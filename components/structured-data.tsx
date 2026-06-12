@@ -61,7 +61,7 @@ export function FaqJsonLd(): ReactElement {
     ],
     [
       'What is a Privilege?',
-      `A Privilege (formerly Permission Token) is a scoped, time-bounded token that lets an agent or dApp bypass 2FA for specific operations. You define the allowed addresses, chain, spend limit, and duration (max 2 hours, enforced server-side). If 2FA is disabled, Privileges are unnecessary.`,
+      `A Privilege is a scoped, time-bounded token that lets an agent or dApp bypass 2FA for specific operations. You define the allowed addresses, chain, spend limit, and duration (max 2 hours, enforced server-side). If 2FA is disabled, Privileges are unnecessary.`,
     ],
     [
       `How do I approve or revoke my agent's access?`,
