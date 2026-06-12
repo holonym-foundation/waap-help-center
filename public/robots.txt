@@ -1,0 +1,19 @@
+# WaaP Help Center (support.waap.xyz)
+# Agent-readable index: https://support.waap.xyz/llms.txt
+
+User-agent: *
+Allow: /
+
+# Explicitly allow AI crawlers
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-Web
+User-agent: PerplexityBot
+User-agent: Google-Extended
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://support.waap.xyz/sitemap.xml
+Host: https://support.waap.xyz

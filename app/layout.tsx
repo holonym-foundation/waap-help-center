@@ -6,16 +6,22 @@ import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import Script from 'next/script'
 
+const SITE_DESCRIPTION =
+  'Support and documentation for WaaP, the self-custodial wallet with no seed phrase, built for people and AI agents.'
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://support.waap.xyz'),
   title: {
     default: 'WaaP Help Center',
     template: '%s – WaaP Help',
   },
-  description: 'Support and documentation for WaaP',
+  description: SITE_DESCRIPTION,
+  alternates: {
+    canonical: './',
+  },
   openGraph: {
     title: 'WaaP Help Center',
-    description: 'Support and documentation for WaaP',
+    description: SITE_DESCRIPTION,
     url: 'https://support.waap.xyz',
     siteName: 'WaaP Help Center',
     images: ['/img/social-card.png'],
@@ -24,7 +30,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'WaaP Help Center',
-    description: 'Support and documentation for WaaP',
+    description: SITE_DESCRIPTION,
     site: '@waapxyz',
     images: ['/img/social-card.png'],
   },
