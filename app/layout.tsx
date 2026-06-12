@@ -7,7 +7,7 @@ import type { ReactNode } from 'react'
 import Script from 'next/script'
 
 const SITE_DESCRIPTION =
-  'Support and documentation for WaaP, the self-custodial wallet with no seed phrase, built for people and AI agents.'
+  'Support and documentation for WaaP, the self-custodial wallet with no seed phrase, built for humans and AI agents.'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://support.waap.xyz'),

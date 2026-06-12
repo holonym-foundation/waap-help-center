@@ -14,7 +14,7 @@ export async function generateMetadata(props: {
     return {
       ...metadata,
       title: {
-        absolute: 'WaaP Help Center: Self-Custodial Wallet for People and Agents',
+        absolute: 'WaaP Help Center: Self-Custodial Wallet for Humans and Agents',
       },
     }
   }
