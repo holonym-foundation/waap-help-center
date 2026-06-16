@@ -1,0 +1,23 @@
+# WaaP Help Center
+
+> User-facing support knowledge base for WaaP (Wallet as a Protocol) by Holonym Foundation. WaaP is a self-custodial wallet with no seed phrase, built on two-party computation (2PC) cryptography. Supports EVM chains, Sui, and Stellar, with Solana planned. Includes AI agent wallet support via headless CLI and scoped Privileges.
+
+Last updated: 2026-06-16
+
+## Pages
+
+- [Welcome](https://support.waap.xyz): Help center landing page. Overview of WaaP features (no seed phrase, self-custodial, multi-chain, agent support, transaction scanning), quick links to all topics, and support channels.
+- [Getting Started](https://support.waap.xyz/getting-started): Step-by-step guide to creating a WaaP wallet. Login methods, why there is no seed phrase, and how 2PC key generation works.
+- [Using Your Wallet](https://support.waap.xyz/wallet): How to receive and send funds, supported blockchain networks, and transaction history.
+- [Security](https://support.waap.xyz/security): Two-party computation (2PC) security model, transaction scanning powered by Blockaid, and account recovery options (additional login methods, recovery contacts, time-delayed recovery).
+- [Troubleshooting](https://support.waap.xyz/troubleshooting): Common issues and fixes for stuck transactions, connection problems, login issues, and wrong-network errors.
+- [FAQ](https://support.waap.xyz/faq): Frequently asked questions covering general usage, pricing, security, key storage, backups, and WaaP for AI agents (CLI, Privileges, agent control).
+- [For Agents](https://support.waap.xyz/agents): How AI agents use WaaP wallets. Two approaches: scoped access via Privileges, or a dedicated agent wallet via the headless CLI. Built-in safety with 2PC keys, 2FA, and transaction scanning.
+- [Privileges](https://support.waap.xyz/privileges): Scoped, time-bounded tokens that let dApps or AI agents transact on your behalf. Controls for allowed addresses, spend caps, chains, and duration (max 2 hours). EVM chains only.
+- [Agent Control](https://support.waap.xyz/agent-control): How to stay in control of AI agents. Approval triggers, notification channels, CLI policy commands, and how to stop an agent.
+
+## More
+
+- [WaaP](https://waap.xyz): Product overview and developer integration.
+- [Developer docs](https://docs.waap.xyz): SDK and integration documentation.
+- [Discord](https://discord.gg/humantech): Community support.
