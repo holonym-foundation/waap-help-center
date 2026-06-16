@@ -2,6 +2,8 @@
 
 > User-facing support knowledge base for WaaP (Wallet as a Protocol) by Holonym Foundation. WaaP is a self-custodial wallet with no seed phrase, built on two-party computation (2PC) cryptography. Supports EVM chains, Sui, and Stellar, with Solana planned. Includes AI agent wallet support via headless CLI and scoped Privileges.
 
+Last updated: 2026-06-16
+
 ## Pages
 
 - [Welcome](https://support.waap.xyz): Help center landing page. Overview of WaaP features (no seed phrase, self-custodial, multi-chain, agent support, transaction scanning), quick links to all topics, and support channels.
@@ -13,3 +15,9 @@
 - [For Agents](https://support.waap.xyz/agents): How AI agents use WaaP wallets. Two approaches: scoped access via Privileges, or a dedicated agent wallet via the headless CLI. Built-in safety with 2PC keys, 2FA, and transaction scanning.
 - [Privileges](https://support.waap.xyz/privileges): Scoped, time-bounded tokens that let dApps or AI agents transact on your behalf. Controls for allowed addresses, spend caps, chains, and duration (max 2 hours). EVM chains only.
 - [Agent Control](https://support.waap.xyz/agent-control): How to stay in control of AI agents. Approval triggers, notification channels, CLI policy commands, and how to stop an agent.
+
+## More
+
+- [WaaP](https://waap.xyz): Product overview and developer integration.
+- [Developer docs](https://docs.waap.xyz): SDK and integration documentation.
+- [Discord](https://discord.gg/humantech): Community support.
