@@ -5,6 +5,7 @@ import 'nextra-theme-docs/style.css'
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import Script from 'next/script'
+import { PostHogProvider } from '../components/posthog-provider'
 
 const SITE_DESCRIPTION =
   'Support and documentation for WaaP, a one-click sign-on wallet that eliminates the tradeoff between convenience and security, for humans and AI agents.'
@@ -69,6 +70,7 @@ export default async function RootLayout({
     <html lang="en" dir="ltr" suppressHydrationWarning>
       <Head faviconGlyph="" />
       <body>
+        <PostHogProvider />
         <Layout
           navbar={navbar}
           pageMap={await getPageMap()}
