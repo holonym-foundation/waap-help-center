@@ -1,0 +1,33 @@
+{
+  "$comment": "Known-safe patterns for waap-help-center. Adapted from waap-docs.",
+  "allowedUsagePatterns": {
+    "components/posthog-provider.tsx": ["window"],
+    "components/structured-data.tsx": ["document"]
+  },
+  "falsePositivePatterns": [],
+  "allowedJsDirectories": [
+    "components/",
+    "lib/",
+    "app/"
+  ],
+  "knownMdxImportSources": [
+    "nextra/components",
+    "@/components/",
+    "@/lib/"
+  ],
+  "infrastructureFiles": [
+    "next.config.mjs",
+    "app/layout.tsx",
+    "mdx-components.tsx",
+    "pnpm-lock.yaml",
+    ".github/workflows/"
+  ],
+  "allowFreelyPatterns": [
+    "content/**/*.mdx",
+    "content/**/_meta.ts",
+    "public/**",
+    ".gitignore",
+    "CLAUDE.md",
+    "CONTRIBUTING.md"
+  ]
+}
