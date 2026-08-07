@@ -57,6 +57,15 @@ Key export is available for users who need it. This generates a standard private
 
 Yes. WaaP provides a headless CLI (`@human.tech/waap-cli`) for AI agents and scripts. Agents sign up with email + password, get a standard wallet address, and can send transactions, sign messages, and query balances — all from the command line. Install with `npm install -g @human.tech/waap-cli@latest`.
 
+### Should I give my agent a Privilege, or its own wallet?
+
+It depends on what you're building.
+
+- **Privilege grant** — Your agent uses _your_ wallet with scoped, time-limited access. Best for personal agents acting on your behalf (e.g., a trading assistant that executes within your rules). You keep the wallet; the agent gets temporary permission to operate within bounds you set.
+- **Own wallet** — Your agent gets its own self-custodial WaaP wallet via the CLI. Best for autonomous services that need their own address and balance (e.g., a payment bot serving multiple users). Same 2PC security, same policy controls.
+
+You can combine both: an agent with its own wallet can also receive Privileges from other users' wallets.
+
 ### How do I control what my agent can do?
 
 WaaP has a layered security model for agents:
@@ -83,6 +92,36 @@ Once granted, transactions matching the scope are signed automatically. If 2FA i
 - **To approve:** When 2FA is enabled and your agent attempts a transaction that exceeds policy limits, you'll receive an approval request via your chosen 2FA method (Telegram, email, phone, or hardware wallet). Approve or deny from there.
 - **To revoke:** Disable the agent's session by changing the account password, or adjust policies with `waap-cli policy set`. Privileges expire automatically after their duration (max 2 hours).
 - **To shut down:** Run `waap-cli logout` on the agent, or change the account password to invalidate all sessions.
+
+### What happens if my agent gets compromised?
+
+WaaP's 2PC architecture means a compromised agent alone can't drain your funds — it only holds one key share. On top of that:
+
+- **Transaction scanning** catches malicious payloads before signing (powered by Blockaid)
+- **2FA approval** blocks unexpected transactions when enabled — you get a Telegram/email notification and deny it
+- **Privileges auto-expire** after at most 2 hours, so a hijacked session has a hard time limit
+- **Policy limits** cap how much damage is possible even if everything else fails
+
+If you suspect a compromise: set your daily limit to `0` (requires approval for everything), let active Privileges expire, and change the account password to invalidate all sessions.
+
+### Can I run multiple agents on one WaaP wallet?
+
+Yes. Each agent session is independent — you can run several agents against the same wallet, each with its own Privilege scope. To create separate agent accounts under one email, use the `+` notation (e.g., `you+agent1@email.com`, `you+agent2@email.com`). Each gets its own wallet address, policies, and session.
+
+To revoke a single agent, change that account's password or let its Privileges expire. Other agents are unaffected.
+
+### How is WaaP different from other agent wallets?
+
+Most agent wallet solutions are either fully custodial (the platform holds your keys) or fully autonomous (the agent has unrestricted access). WaaP is neither:
+
+- **You always hold a key share.** 2PC means no single party — not WaaP, not your agent, not an attacker — can sign without you. Custodial wallets can't make this guarantee.
+- **Scoped permissions are built in.** Privileges let you define exactly what an agent can do, for how long, on which chain, and with whom. Most alternatives give all-or-nothing access.
+- **Human-in-the-loop when it matters.** Conversational approval via Telegram or email — one tap to approve or deny. You're not reviewing cryptographic proofs; you're reading a plain-language summary.
+- **No vendor lock-in.** WaaP is a protocol, not a platform. Your agent's wallet works across any EVM chain, Sui, and Stellar.
+
+### What frameworks and tools can I use with WaaP?
+
+The WaaP CLI is framework-agnostic — any agent framework that can execute shell commands can use it (e.g., LangChain, CrewAI, AutoGPT, ElizaOS). Your agent calls `waap-cli` for wallet operations the same way it would call any other CLI tool.
 
 ## Need more help?
 
