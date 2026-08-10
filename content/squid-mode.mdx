@@ -1,6 +1,6 @@
 # Squid Mode
 
-Squid Mode is WaaP's decentralized signing mode. Instead of a single co-signing enclave, a threshold network of independent validators — operated by [Ika](https://ika.xyz) — completes every transaction.
+Squid Mode is WaaP's decentralized signing mode. Instead of a single co-signing enclave, a threshold network of independent validators — built on [Ika](https://ika.xyz)'s 2PC-MPC protocol — co-signs every transaction.
 
 Same social login. No seed phrase. The self-custody guarantee is now cryptographic, not contractual.
 
@@ -25,10 +25,9 @@ One WaaP login provisions signing across multiple chains from a single account:
 
 - **EVM** — Ethereum, Optimism, Polygon, Arbitrum, Base, Gnosis, Avalanche, Celo, Fantom, zkSync, Linea, Scroll, Aurora, HyperEVM
 - **Sui** — Native signing via ed25519
+- **Solana** — Native signing via ed25519, which Sui and Solana both read natively, so the same account signs on both
 
-Squid Mode uses two key curves under the hood: `secp256k1` for EVM chains and `ed25519` for Sui. You don't need to manage this — one account handles both.
-
-{/* Solana: pending eng reconfirmation (D2, tracker #114). Add here once confirmed for launch. */}
+Squid Mode uses two key curves under the hood: `secp256k1` for EVM chains, and `ed25519` for Sui and Solana. You don't need to manage this — one account handles all three.
 
 ## How do I enable Squid Mode?
 
@@ -51,26 +50,22 @@ Everything carries forward. Squid Mode inherits the same protections as a standa
 
 - **Spend limits** — Daily limits you control
 - **Transaction scanning** — Every transaction is checked before signing
-- **2FA** — High-risk transactions still require your approval via Telegram, email, phone, or hardware wallet
+- **2FA** — High-risk transactions can require your approval via Telegram, email, phone, or hardware wallet
 - **Privileges** — Scoped, time-limited access tokens work the same way
 
-The policy engine runs in the same place it always did — between you and the co-signer. What changes is who completes the signature: a threshold network instead of a single enclave.
+The policy engine runs in the same place it always did — between you and the co-signer. In addition to WaaP's policy gate, which is unchanged, a Squid account adds Ika's threshold network as the co-signer.
 
 ## Squid Mode for agents
 
 For developers running AI agents with WaaP wallets, Squid Mode adds a decentralized co-signer without changing how the agent operates.
 
-The agent authenticates via API key and operates within the policy engine. If an agent is compromised, it finds nothing to extract — the key was never accessible to it. The policy boundary runs below the agent's reasoning layer: a hijacked prompt can attempt anything and still can't move funds past the policy.
+The agent authenticates via API key and operates within the policy engine. The agent holds no raw private keys in its runtime. Hijack it completely and you've captured a session token — every ask still has to clear the policy. Under a standard account, WaaP's enclave co-signs. Under Squid Mode, Ika's threshold network co-signs. Same containment, different trust model.
 
-Under a standard account, WaaP's enclave co-signs. Under Squid Mode, Ika's threshold network co-signs. Same containment, different trust model.
-
-**Note:** Squid Mode is currently available in the **web app only**. The WaaP CLI (`waap-cli`) does not have a Squid Mode surface yet — agents using the CLI operate on standard accounts with 2PC signing.
+Squid Mode is available in the WaaP CLI, the WaaP SDK and waap.xyz from launch.
 
 ## Current limitations
 
-- **Web app only** — Squid Mode is available in the WaaP web app. The CLI and SDK do not support Squid Mode yet.
 - **New accounts only** — Squid Mode is selected at account creation. You cannot convert an existing standard account to Squid Mode.
-- **Solana** — Solana support is being finalized. Check back for updates.
 
 {/* Open gaps for eng: recovery flow for Squid accounts, what data Ika's network sees during signing, availability/fallback if Ika network is slow. Add once answers land. */}
 
@@ -86,7 +81,7 @@ Both modes enforce the same policy boundary and key-splitting guarantee. The dif
 
 ### Does Squid Mode cost more?
 
-Check [waap.xyz](https://waap.xyz) for current pricing details.
+Squid Mode pricing hasn't been published yet. Ask us in the chat bubble or on [Discord](https://discord.gg/humantech) and we'll get you the current answer.
 
 ### Can I switch between modes?
 
