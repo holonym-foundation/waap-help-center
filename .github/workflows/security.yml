@@ -34,7 +34,7 @@ jobs:
         # v4
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Run security scan
         id: scan
@@ -111,7 +111,7 @@ jobs:
         # v4
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Install pnpm
         run: corepack enable && corepack prepare pnpm@latest --activate
