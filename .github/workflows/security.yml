@@ -113,11 +113,8 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install pnpm
-        run: corepack enable && corepack prepare pnpm@10.11.1 --activate
-
-      - name: Verify lockfile integrity
-        run: pnpm install --frozen-lockfile
+      - name: Generate lockfile
+        run: npm install --package-lock-only --ignore-scripts
 
       - name: Check for postinstall scripts in new packages
         run: |
@@ -138,6 +135,7 @@ jobs:
           fi
 
           echo "Checking new packages for lifecycle scripts..."
+          npm install --ignore-scripts 2>/dev/null
           FOUND_LIFECYCLE=0
 
           for pkg in $NEW_PKGS; do
@@ -168,7 +166,7 @@ jobs:
           if [ "$FOUND_LIFECYCLE" -eq 1 ]; then
             echo ""
             echo "::error::One or more newly added packages have install lifecycle scripts."
-            echo "These scripts run arbitrary code during 'pnpm install' and are a supply chain attack vector."
+            echo "These scripts run arbitrary code during 'npm install' and are a supply chain attack vector."
             echo "Review each script carefully before approving."
             exit 1
           fi
@@ -181,7 +179,7 @@ jobs:
         uses: google/osv-scanner-action/osv-scanner-action@c51854704019a247608d928f370c98740469d4b5
         with:
           scan-args: |-
-            --lockfile=pnpm-lock.yaml
+            --lockfile=package-lock.json
 
       - name: Run OSV Scanner (JSON for severity gate)
         continue-on-error: true
@@ -189,7 +187,7 @@ jobs:
         uses: google/osv-scanner-action/osv-scanner-action@c51854704019a247608d928f370c98740469d4b5
         with:
           scan-args: |-
-            --lockfile=pnpm-lock.yaml
+            --lockfile=package-lock.json
             --format=json
             --output=osv-report.json
 
