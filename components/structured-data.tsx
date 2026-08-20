@@ -17,19 +17,19 @@ export function FaqJsonLd(): ReactElement {
   const qa: [string, string][] = [
     [
       'What is WaaP?',
-      `WaaP (Wallet as a Protocol) is a self-custodial wallet that doesn't require seed phrases. It uses two-party computation to split your keys between your device and a secure enclave, so no single party can access your funds.`,
+      `WaaP (Wallet as a Protocol) is a wallet that doesn't require seed phrases, and that you never hold a private key for. Signing happens in secure hardware on WaaP's infrastructure, and your policy runs before every signature. In a WaaP Squid Mode account the signature additionally requires Ika's independent validator network, so no single party holds a key that can move your funds.`,
     ],
     [
       'Is WaaP free?',
-      `WaaP is free for end users; you only pay network gas fees. For developers it's free to integrate, with a revenue-share model (no per-seat or per-signature billing). Agent and CLI usage may have separate pricing; check waap.xyz for current details.`,
+      `WaaP is free for end users. For developers, integration is free, and free below 1,000 wallets. WaaP Squid Mode carries a per-signature network cost, which is being subsidised through launch.`,
     ],
     [
       'What chains does WaaP support?',
-      `EVM chains (Ethereum, Optimism, Base, Arbitrum, Polygon, and more), Sui, and Stellar (as a signer). Solana support is planned.`,
+      `EVM chains (Ethereum, Optimism, Base, Arbitrum, Polygon, and more), Sui and Solana. Each chain is signed on natively: nothing is bridged and no asset moves between chains.`,
     ],
     [
       'Where are my keys stored?',
-      `Your keys are split into two shares: one on your device (derived from your login) and one on the decentralized WaaP network. Neither share alone can sign transactions.`,
+      `You don't hold one. There is no key or key share on your device and no seed phrase anywhere. What your account holds is an object on Sui that it owns, and that object is what authorises every signature.`,
     ],
     [
       'What if I lose my phone?',
@@ -73,7 +73,7 @@ export function FaqJsonLd(): ReactElement {
     ],
     [
       'What happens if my agent gets compromised?',
-      `WaaP's 2PC architecture means a compromised agent alone can't drain your funds — it only holds one key share. Transaction scanning catches malicious payloads before signing, 2FA blocks unexpected transactions, Privileges auto-expire after at most 2 hours, and policy limits cap possible damage. If you suspect a compromise, set your daily limit to 0 and change the account password.`,
+      `A compromised agent cannot drain your funds on its own, because it holds nothing that can sign: on its machine sit the CLI and a session token. Every request still has to clear your policy. Transaction scanning catches malicious payloads before signing, 2FA blocks unexpected transactions, Privileges auto-expire after at most 2 hours, and policy limits cap possible damage. If you suspect a compromise, set your daily limit to 0 and change the account password.`,
     ],
     [
       'Can I run multiple agents on one WaaP wallet?',
@@ -81,7 +81,7 @@ export function FaqJsonLd(): ReactElement {
     ],
     [
       'How is WaaP different from other agent wallets?',
-      `Most agent wallets are either fully custodial (the platform holds your keys) or fully autonomous (the agent has unrestricted access). WaaP uses 2PC so you always hold a key share, Privileges for scoped permissions, and conversational approval via Telegram or email. It's a protocol, not a platform — no vendor lock-in.`,
+      `The agent never holds a key: it holds a session token and nothing that can sign, so the worst case is a request that still has to clear your policy. Policy is enforced before a signature exists rather than reported afterwards. Privileges define exactly what an agent may do, for how long, on which chain and with whom. Approval is conversational, via Telegram or email. In a WaaP Squid Mode account the signature also requires Ika's independent validator network, so no single operator can produce one alone.`,
     ],
     [
       'What frameworks and tools can I use with WaaP?',
@@ -113,7 +113,7 @@ export function GettingStartedJsonLd(): ReactElement {
         '@type': 'HowTo',
         name: 'How to create a WaaP wallet',
         description:
-          'Set up a self-custodial WaaP wallet, with no seed phrase, in minutes.',
+          'Set up a WaaP wallet, with no seed phrase, in minutes.',
         step: [
           {
             '@type': 'HowToStep',
@@ -138,7 +138,7 @@ export function GettingStartedJsonLd(): ReactElement {
           {
             '@type': 'HowToStep',
             name: 'Done',
-            text: 'Your self-custodial wallet is ready, with no seed phrase to manage.',
+            text: 'Your wallet is ready, with no seed phrase to manage.',
           },
         ],
       }}
