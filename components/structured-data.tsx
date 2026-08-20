@@ -56,6 +56,10 @@ export function FaqJsonLd(): ReactElement {
       `Yes. WaaP provides a headless CLI (@human.tech/waap-cli) for AI agents and scripts. Agents sign up with email and password, get a standard wallet address, and can send transactions, sign messages, and query balances from the command line.`,
     ],
     [
+      'Should I give my agent a Privilege, or its own wallet?',
+      `A Privilege grant lets your agent use your wallet with scoped, time-limited access — best for personal agents acting on your behalf. An own wallet via the CLI gives the agent its own address and balance — best for autonomous services. You can combine both: an agent with its own wallet can also receive Privileges from other users.`,
+    ],
+    [
       'How do I control what my agent can do?',
       `WaaP has a layered security model: Policies (daily spend limits and auto-approve rules), 2FA (high-risk transactions require approval via Telegram, email, phone, or hardware wallet), and Privileges (scoped, time-limited tokens, max 2 hours, that let an agent bypass 2FA for pre-approved operations). New accounts start with 2FA disabled.`,
     ],
@@ -66,6 +70,22 @@ export function FaqJsonLd(): ReactElement {
     [
       `How do I approve or revoke my agent's access?`,
       `Approve via your chosen 2FA method (Telegram, email, phone, or hardware wallet) when an agent exceeds your policy limits. Revoke by changing the account password or adjusting policies with waap-cli; Privileges expire automatically after their duration. To shut down, run waap-cli logout or change the password to invalidate all sessions.`,
+    ],
+    [
+      'What happens if my agent gets compromised?',
+      `WaaP's 2PC architecture means a compromised agent alone can't drain your funds — it only holds one key share. Transaction scanning catches malicious payloads before signing, 2FA blocks unexpected transactions, Privileges auto-expire after at most 2 hours, and policy limits cap possible damage. If you suspect a compromise, set your daily limit to 0 and change the account password.`,
+    ],
+    [
+      'Can I run multiple agents on one WaaP wallet?',
+      `Yes. Each agent session is independent. Use email + notation (e.g., you+agent1@email.com) to create separate agent accounts, each with its own wallet, policies, and session. Revoking one agent does not affect others.`,
+    ],
+    [
+      'How is WaaP different from other agent wallets?',
+      `Most agent wallets are either fully custodial (the platform holds your keys) or fully autonomous (the agent has unrestricted access). WaaP uses 2PC so you always hold a key share, Privileges for scoped permissions, and conversational approval via Telegram or email. It's a protocol, not a platform — no vendor lock-in.`,
+    ],
+    [
+      'What frameworks and tools can I use with WaaP?',
+      `The WaaP CLI is framework-agnostic. Any agent framework that can execute shell commands (e.g., LangChain, CrewAI, AutoGPT, ElizaOS) can use waap-cli for wallet operations.`,
     ],
   ]
 
