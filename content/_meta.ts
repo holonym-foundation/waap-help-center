@@ -2,6 +2,7 @@ export default {
   index: 'Welcome',
   'getting-started': 'Getting Started',
   wallet: 'Using Your Wallet',
+  'squid-mode': 'Squid Mode',
   security: 'Security',
   troubleshooting: 'Troubleshooting',
   faq: 'FAQ',

@@ -1,0 +1,112 @@
+# WaaP Squid Mode
+
+The human.tech wallet protocol gives one account the ability to sign on EVM, Sui and Solana. WaaP Squid Mode is the version of that account where the signature is completed by an independent validator network as well as our own infrastructure.
+
+No single party holds a key that can move your funds, because a signature needs both our enclave and the Ika network.
+
+Same social login. No seed phrase.
+
+## How it works
+
+The signature is produced by two parties working together: our enclave infrastructure and [Ika](https://ika.xyz)'s validator network. That combination is what 2PC-MPC means here, and it only exists as the combination. Ika alone is not two-party, and the wallet without Ika is not two-party either.
+
+In a WaaP Squid Mode account, the private key does not sit in one place. What your account holds is not a key. It is an object on Sui that your account owns, and that object is what authorises every signature. It is bound to you on a public chain, not held in our database.
+
+Every signature request, whatever chain it is bound for, is submitted on Sui and co-signed only against a valid approval held by that object. Without it, no signature is produced, by us or by anyone.
+
+Before any of that happens, our policy gate runs. If the policy does not agree, no signature is produced.
+
+| | Standard account | WaaP Squid Mode account |
+|---|---|---|
+| Who completes the signature | Secure hardware on WaaP's infrastructure | Our enclave infrastructure together with Ika's validator network |
+| Reach | One network per account | EVM, Sui and Solana from one account |
+| Policy engine | Runs before every signature | Runs before every signature |
+| Seed phrase | None | None |
+
+Both modes run the same policy gate, so the rules you write do not change when you change modes.
+
+Ika's 2PC-MPC network has been live on Sui mainnet since July 2025, currently in beta, and can scale up to 100+ nodes.
+
+## What chains does WaaP Squid Mode support?
+
+One WaaP login provisions signing across multiple chains from a single account. Each chain is signed on natively. Nothing is bridged and no asset moves between chains.
+
+- **EVM** Ethereum, Optimism, Polygon, Arbitrum, Base, Gnosis, Avalanche, Celo, Fantom, zkSync, Linea, Scroll, Aurora, HyperEVM
+- **Sui** native signing
+- **Solana** native signing
+
+Under the hood your login provisions two signing identities: one on `secp256k1` for the EVM chains, and one on `ed25519` that covers both Sui and Solana. You do not need to manage this. One account handles all three families.
+
+## How do I turn on WaaP Squid Mode?
+
+WaaP Squid Mode is available in the WaaP web app, and for developers in the WaaP CLI and the WaaP SDK. Developer setup is covered in the WaaP docs.
+
+In the web app you choose the account type in the account selector:
+
+- **Standard account** Protected by WaaP
+- **Squid account** Protected by WaaP + Ika MPC
+
+To get started:
+
+1. Go to [waap.xyz](https://waap.xyz)
+2. Open the account selector and choose **Squid account**
+3. Your account is provisioned with Ika as the second signing party from the start
+
+## What about policies and 2FA?
+
+Everything carries forward. A WaaP Squid Mode account runs the same policy engine as a standard account.
+
+What you set is a small, deliberate surface: an authentication method, a risk threshold, and a daily USD limit. One rule, written once, holds across every chain. There is nothing to deploy per chain.
+
+What the gate runs on your behalf is wider:
+
+- **Transaction simulation** the transaction is simulated before it is signed, and the most conservative result across providers wins
+- **Reputation checks** the recipient address and the requesting domain are checked against known-malicious lists, and the higher risk wins
+- **Address binding** your real addresses are re-derived server side, so a compromised client cannot name an unrelated address to get around your limit
+- **Escalation** anything above your risk threshold waits for you, and one approval resumes it. Approval can come via Telegram, email, phone, or a hardware wallet
+
+Screening is not skippable. Policy is enforced on every transaction, in both modes.
+
+## WaaP Squid Mode for agents
+
+For developers running agents with WaaP wallets, WaaP Squid Mode adds the second signing party without changing how the agent operates.
+
+The agent holds no raw private keys in its runtime. On its machine sit the CLI and a session token, nothing that can sign. Hijack it completely and you have captured a session token. Every request still has to clear the policy gate.
+
+Under a standard account, the signature is produced in secure hardware on WaaP's infrastructure, gated by security policies. Under WaaP Squid Mode, it is produced by our enclave infrastructure together with Ika's validator network.
+
+## Switching between modes
+
+You can switch an account between standard and WaaP Squid Mode, and switch back.
+
+Each mode has its own addresses. Switching changes which account you are signing from, so check the address in the app before you send anything to it.
+
+{/* Open gaps for eng: recovery flow for Squid accounts, what data Ika's network sees during signing, availability and fallback if the Ika network is slow. Add once answers land. */}
+
+## FAQ
+
+### Do I need to migrate my existing account?
+
+No. Standard accounts continue to work exactly as they did.
+
+### Is WaaP Squid Mode more secure?
+
+They are two trust models, and the right one depends on what you are protecting.
+
+Both run the same policy gate. The difference is who completes the signature. In a standard account it is completed in secure hardware on our infrastructure. In a WaaP Squid Mode account it takes our enclave and Ika's validator network together, so no single operator, including us, can produce a signature for your account alone.
+
+We run the security policy and access control. Ika's network is what actually completes a fund-moving signature. The authority both answer to is an object on a public chain bound to your account.
+
+Standard mode is built for onboarding at volume. WaaP Squid Mode is built for value that justifies removing any single operator as a point of trust.
+
+### Does WaaP Squid Mode cost more?
+
+Integration is free, and free below 1,000 wallets. WaaP Squid Mode carries a per-signature network cost, which is being subsidised through launch.
+
+### Can I switch between modes?
+
+Yes. You can move an account between standard and WaaP Squid Mode and back again. Each mode has its own addresses.
+
+## Need help?
+
+Click the chat bubble in the bottom-right corner to talk to Iris, our AI support agent. You can also reach us on [Discord](https://discord.gg/humantech).
