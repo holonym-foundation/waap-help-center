@@ -8,33 +8,35 @@ import { FaqJsonLd } from '../components/structured-data'
 
 ### What is WaaP?
 
-WaaP (Wallet as a Protocol) is a self-custodial wallet that doesn't require seed phrases. It uses two-party computation to split your keys between your device and a secure enclave, so no single party can access your funds.
+WaaP (Wallet as a Protocol) is a wallet that doesn't require seed phrases, and that you never hold a private key for. Signing happens in secure hardware on WaaP's infrastructure, and your policy runs before every signature. In a WaaP Squid Mode account, the signature additionally requires Ika's independent validator network, so no single party holds a key that can move your funds.
 
 ### Is WaaP free?
 
-WaaP is free for end users — you only pay network gas fees for transactions. For developers, WaaP is free to integrate with a revenue-share model (no per-seat or per-signature billing). Agent and CLI usage may have separate pricing — check [waap.xyz](https://waap.xyz) for current details.
+WaaP is free for end users. For developers, integration is free, and free below 1,000 wallets. WaaP Squid Mode carries a per-signature network cost, which is being subsidised through launch.
 
 ### What chains does WaaP support?
 
-WaaP supports EVM chains (Ethereum, Optimism, Base, Arbitrum, Polygon, and more), Sui, and Stellar (as a signer). Solana support is planned.
+WaaP supports EVM chains (Ethereum, Optimism, Base, Arbitrum, Polygon, and more), Sui and Solana. Each chain is signed on natively: nothing is bridged and no asset moves between chains.
 
 ## Security
 
-### Where are my keys stored?
+### Where is my key stored?
 
-Your keys are split into two shares:
-- One share on your device (derived from your login)
-- One share on the decentralized WaaP network
+What you hold is not a key, and that is deliberate: a secret on your device is a secret that can be phished, lost or copied.
 
-Neither share alone can sign transactions.
+What your account holds instead is an object on Sui that it owns. Every signature request is checked against that object, so without it no signature is produced, by us or by anyone. It sits on a public chain rather than in our database, which means it is not something we can quietly change or revoke.
+
+The signing itself is kept separate from that authority. For a standard account it happens in secure hardware on WaaP's infrastructure. For a WaaP Squid Mode account it takes two parties, our enclave and Ika's independent validator network, and neither can produce a signature without the other.
 
 ### What if I lose my phone?
 
-You can recover access using any login method you've set up (email, phone, Google, etc.). We recommend setting up multiple methods.
+You can recover access using any login method you've set up (email, phone, Google, etc.). We recommend setting up multiple methods. Because nothing that can sign lives on your device, losing the device does not put your funds at risk.
 
-### Can WaaP access my funds?
+### Can WaaP move my funds?
 
-No. WaaP only holds one share of your key. Without your share, no one — including WaaP — can move your funds.
+Your policy runs before every signature, and anything outside your limits waits for your approval.
+
+In a WaaP Squid Mode account, a signature also requires Ika's validator network, so no single party, including us, holds a key that can move your funds.
 
 
 ## Using WaaP
@@ -62,7 +64,7 @@ Yes. WaaP provides a headless CLI (`@human.tech/waap-cli`) for AI agents and scr
 It depends on what you're building.
 
 - **Privilege grant** — Your agent uses _your_ wallet with scoped, time-limited access. Best for personal agents acting on your behalf (e.g., a trading assistant that executes within your rules). You keep the wallet; the agent gets temporary permission to operate within bounds you set.
-- **Own wallet** — Your agent gets its own self-custodial WaaP wallet via the CLI. Best for autonomous services that need their own address and balance (e.g., a payment bot serving multiple users). Same 2PC security, same policy controls.
+- **Own wallet** — Your agent gets its own WaaP account and address via the CLI. Best for autonomous services that need their own address and balance (e.g., a payment bot serving multiple users). Same signing model, same policy controls.
 
 You can combine both: an agent with its own wallet can also receive Privileges from other users' wallets.
 
@@ -95,7 +97,7 @@ Once granted, transactions matching the scope are signed automatically. If 2FA i
 
 ### What happens if my agent gets compromised?
 
-WaaP's 2PC architecture means a compromised agent alone can't drain your funds — it only holds one key share. On top of that:
+A compromised agent cannot drain your funds on its own, because it holds nothing that can sign. On its machine sit the CLI and a session token. Every request it makes still has to clear your policy. On top of that:
 
 - **Transaction scanning** catches malicious payloads before signing (powered by Blockaid)
 - **2FA approval** blocks unexpected transactions when enabled — you get a Telegram/email notification and deny it
@@ -112,12 +114,14 @@ To revoke a single agent, change that account's password or let its Privileges e
 
 ### How is WaaP different from other agent wallets?
 
-Most agent wallet solutions are either fully custodial (the platform holds your keys) or fully autonomous (the agent has unrestricted access). WaaP is neither:
+Four things, stated as what WaaP does rather than what anything else doesn't:
 
-- **You always hold a key share.** 2PC means no single party — not WaaP, not your agent, not an attacker — can sign without you. Custodial wallets can't make this guarantee.
-- **Scoped permissions are built in.** Privileges let you define exactly what an agent can do, for how long, on which chain, and with whom. Most alternatives give all-or-nothing access.
-- **Human-in-the-loop when it matters.** Conversational approval via Telegram or email — one tap to approve or deny. You're not reviewing cryptographic proofs; you're reading a plain-language summary.
-- **No vendor lock-in.** WaaP is a protocol, not a platform. Your agent's wallet works across any EVM chain, Sui, and Stellar.
+- **The agent never holds a key.** It holds a session token and nothing that can sign, so the worst case is a request that still has to clear your policy.
+- **Policy is enforced before a signature exists.** Your limits are not a report you read afterwards. Anything outside them waits for you.
+- **Scoped permissions are built in.** Privileges define exactly what an agent can do, for how long, on which chain, and with whom.
+- **Human in the loop when it matters.** Conversational approval via Telegram or email, one tap to approve or deny. You read a plain-language summary, not a cryptographic proof.
+
+In a WaaP Squid Mode account, the signature also requires Ika's independent validator network, so no single operator, including us, can produce one alone.
 
 ### What frameworks and tools can I use with WaaP?
 

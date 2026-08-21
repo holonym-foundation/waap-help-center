@@ -20,15 +20,14 @@ Set up your WaaP wallet in minutes.
 
 ## No Seed Phrase?
 
-That's right. WaaP doesn't use seed phrases. Instead, your keys are split using two-party computation:
+That's right. Instead of a secret you have to keep, your account holds an authorisation on a public chain that every signature has to be checked against, and your policy runs before any signature is produced.
 
-- **Your share** — derived from your login credentials
-- **Security share** — held in a secure enclave
+This means:
+- No seed phrase to lose, and nothing on your device worth phishing
+- Your limits are enforced before a signature exists, not reported to you afterwards
+- The authorisation is recorded on chain, not in our database
 
-Neither share alone can sign transactions. This means:
-- No seed phrase to lose or get stolen
-- No single point of failure
-- True self-custody without the complexity
+If you want a second, independent party involved in every signature, that is [WaaP Squid Mode](/squid-mode).
 
 ## What's Next?
 

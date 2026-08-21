@@ -2,19 +2,53 @@
 
 How WaaP keeps your funds safe.
 
-## Two-Party Computation (2PC)
+## How your account is protected
 
-Your private key never exists in one place. WaaP splits signing authority:
+Two things decide how safe an account is: who can produce a signature, and what has to be true before they do.
 
-| Share | Location | Can sign alone? |
-|-------|----------|-----------------|
-| Your share | Your device | No |
-| Security share | Secure enclave | No |
+WaaP keeps those two powers apart. We run the policy and the access control. We do not decide on our own that a transaction is fine and sign it. And the authority both sides answer to is not held by us at all: it is an object on Sui that your account owns.
 
-Both shares are required to sign any transaction. This means:
-- If your device is compromised, attackers can't move funds
-- If the enclave is compromised, attackers can't move funds
-- Only you can authorize transactions
+There are two ways an account can complete a signature, and the right one depends on what you are protecting. Both run the same policy gate, so the rules you write do not change when you change modes.
+
+## WaaP Squid Mode
+
+The private key for the account does not exist in one place.
+
+| Party | What it does | Can it sign alone? |
+|---|---|---|
+| Our secure enclave | Checks your policy, and requests a signature only if it passes | No |
+| Ika's validator network | Completes the signature, once the request carries a valid approval | No |
+
+That combination is what 2PC-MPC means here, and it only exists as the combination. Ika alone is not two-party, and the wallet without Ika is not two-party either.
+
+No single party holds a key that can move your funds, because a signature needs both our enclave and the Ika network.
+
+## Standard account
+
+The signature is produced in secure hardware on WaaP's infrastructure, gated by security policies. One party completes it, and your policy still runs before it does.
+
+Standard accounts are built for onboarding at volume. WaaP Squid Mode is built for value that justifies removing any single operator as a point of trust.
+
+## Your authorisation
+
+Neither party acts on its own say-so.
+
+Every signature request, whatever chain it is bound for, is submitted on Sui and co-signed only against a valid approval held by an object your account owns. Without that object there is no signature, from us or from anyone.
+
+That object is what your authority over the account actually is. It is recorded on a public chain, not in our database, so it is not something we can quietly change or revoke. This is also why there is no seed phrase and no key share on your device: what makes a signature yours is not a secret you are holding, it is an authorisation the whole system has to check.
+
+## Policy runs before every signature
+
+Whichever account type you use, the policy gate runs first. If the policy does not agree, no signature is produced, and the screening is not skippable.
+
+What you set is small and deliberate: an authentication method, a risk threshold, and a daily spend limit. One rule, written once, holds across every chain.
+
+What the gate runs on your behalf is wider:
+
+- **Transaction simulation** before the transaction is signed, with the most conservative result taken
+- **Reputation checks** on the recipient address and the requesting domain, against known-malicious lists
+- **Address binding**, so a compromised client cannot name an unrelated address to get around your limit
+- **Escalation** of anything above your risk threshold, which waits for your approval
 
 ## No Seed Phrases
 
@@ -25,10 +59,7 @@ Seed phrases are the #1 attack vector in crypto. WaaP eliminates them entirely:
 
 ## Transaction Scanning
 
-Before you sign, WaaP scans transactions for:
-- Malicious contracts
-- Phishing attempts
-- Unusual patterns
+Part of the gate above: before a signature exists, every transaction is checked for malicious contracts, phishing attempts and unusual patterns.
 
 Powered by [Blockaid](https://blockaid.io) security infrastructure.
 

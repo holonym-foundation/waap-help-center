@@ -19,7 +19,7 @@ Within those bounds, your agent operates without prompting you for every action.
 
 ## Run an agent with its own WaaP wallet
 
-For developers building autonomous agents, WaaP ships a headless CLI that gives the agent its own self-custodial wallet. Same 2PC security as a personal WaaP wallet, with the same Privileges and policy controls.
+For developers building autonomous agents, WaaP ships a headless CLI that gives the agent its own WaaP account and address. Same signing model as a personal WaaP wallet, with the same Privileges and policy controls.
 
 [WaaP for Agents →](https://docs.waap.xyz/for-agents)
 
@@ -27,6 +27,6 @@ For developers building autonomous agents, WaaP ships a headless CLI that gives 
 
 However your agent uses WaaP:
 
-- **You always own the keys.** 2PC ensures neither WaaP nor the agent can sign without you.
+- **The agent holds no raw private keys.** On its machine sit the CLI and a session token, nothing that can sign. Hijack it completely and every request still has to clear your policy.
 - **2FA on high-risk transactions.** When enabled, transactions outside your policies require approval via Telegram, email, SMS, or hardware wallet.
 - **Transaction scanning.** Transactions are simulated for malicious payloads before signing.
