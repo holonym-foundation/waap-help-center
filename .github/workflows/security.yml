@@ -1,0 +1,220 @@
+name: PR Security Scan
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  actions: read
+  contents: read
+  pull-requests: write
+  statuses: write
+
+jobs:
+  custom-scripts:
+    name: Custom Security Scan
+    runs-on: ubuntu-latest
+    outputs:
+      has_blocks: ${{ steps.scan.outputs.has_blocks }}
+      has_flags: ${{ steps.scan.outputs.has_flags }}
+    steps:
+      - name: Harden Runner
+        # v2
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        # v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        # v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+
+      - name: Run security scan
+        id: scan
+        env:
+          COMMENT_OUTPUT: /tmp/security-scan-comment.md
+        run: node .github/scripts/security-scan.mjs
+
+      - name: Find existing comment
+        if: always()
+        # v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b
+        id: find-comment
+        with:
+          script: |
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const botComment = comments.data.find(
+              (c) => c.body.includes('<!-- security-scan-comment -->')
+            );
+            return botComment ? botComment.id : '';
+          result-encoding: string
+
+      - name: Post or update PR comment
+        if: always()
+        # v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b
+        with:
+          script: |
+            const fs = require('fs');
+            let body;
+            try {
+              body = fs.readFileSync('/tmp/security-scan-comment.md', 'utf8');
+            } catch {
+              body = '## Security Scan Results\n\n:warning: The security scanner encountered an internal error. Check the [workflow run](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId + ') for details.\n<!-- security-scan-comment -->';
+            }
+            const commentId = '${{ steps.find-comment.outputs.result }}';
+
+            if (commentId) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: parseInt(commentId),
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
+
+  dependency-audit:
+    name: Dependency Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        # v2
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        # v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        # v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+
+      - name: Generate lockfile
+        run: npm install --package-lock-only --ignore-scripts
+
+      - name: Check for postinstall scripts in new packages
+        run: |
+          BASE_BRANCH="${GITHUB_BASE_REF:-main}"
+          MERGE_BASE=$(git merge-base HEAD "origin/${BASE_BRANCH}" 2>/dev/null || echo "HEAD~1")
+          DIFF=$(git diff "$MERGE_BASE" -- package.json 2>/dev/null || true)
+
+          if [ -z "$DIFF" ]; then
+            echo "No package.json changes detected — skipping postinstall check"
+            exit 0
+          fi
+
+          NEW_PKGS=$(echo "$DIFF" | grep '^+' | grep -v '^\+\+\+' | grep -oP '"\K[^"]+(?="\s*:)' | grep -v -E '^(name|version|description|scripts|dependencies|devDependencies|peerDependencies|engines|private|type|license|repository|homepage|bugs|keywords|main|module|exports|files|sideEffects|browserslist|prettier|eslintConfig)$' || true)
+
+          if [ -z "$NEW_PKGS" ]; then
+            echo "No new packages detected in diff"
+            exit 0
+          fi
+
+          echo "Checking new packages for lifecycle scripts..."
+          npm install --ignore-scripts 2>/dev/null
+          FOUND_LIFECYCLE=0
+
+          for pkg in $NEW_PKGS; do
+            PKG_JSON="node_modules/${pkg}/package.json"
+            if [ ! -f "$PKG_JSON" ]; then
+              echo "::warning::Package ${pkg} not found in node_modules — may be a false positive from diff parsing"
+              continue
+            fi
+
+            LIFECYCLE=$(node -e "
+              const p = require('./${PKG_JSON}');
+              const scripts = p.scripts || {};
+              const found = ['preinstall','install','postinstall'].filter(s => scripts[s]);
+              if (found.length) {
+                found.forEach(s => console.log(s + ': ' + scripts[s]));
+              }
+            " 2>/dev/null || true)
+
+            if [ -n "$LIFECYCLE" ]; then
+              echo "::error::Package '${pkg}' has lifecycle scripts that run on install:"
+              echo "$LIFECYCLE" | while read -r line; do
+                echo "  $line"
+              done
+              FOUND_LIFECYCLE=1
+            fi
+          done
+
+          if [ "$FOUND_LIFECYCLE" -eq 1 ]; then
+            echo ""
+            echo "::error::One or more newly added packages have install lifecycle scripts."
+            echo "These scripts run arbitrary code during 'npm install' and are a supply chain attack vector."
+            echo "Review each script carefully before approving."
+            exit 1
+          fi
+
+          echo "No lifecycle scripts found in new packages"
+
+      - name: Run OSV Scanner (human-readable report)
+        continue-on-error: true
+        # v2.3.5
+        uses: google/osv-scanner-action/osv-scanner-action@c51854704019a247608d928f370c98740469d4b5
+        with:
+          scan-args: |-
+            --lockfile=package-lock.json
+
+      - name: Run OSV Scanner (JSON for severity gate)
+        continue-on-error: true
+        # v2.3.5
+        uses: google/osv-scanner-action/osv-scanner-action@c51854704019a247608d928f370c98740469d4b5
+        with:
+          scan-args: |-
+            --lockfile=package-lock.json
+            --format=json
+            --output=osv-report.json
+
+      - name: Fail on critical-severity findings
+        run: |
+          if [ ! -s osv-report.json ]; then
+            echo "No OSV report produced — no vulnerabilities found"
+            exit 0
+          fi
+          CRIT=$(jq '[.results[]?.packages[]?.vulnerabilities[]? | select(.database_specific.severity == "CRITICAL")] | length' osv-report.json)
+          echo "Critical-severity findings: $CRIT"
+          if [ "$CRIT" -gt 0 ]; then
+            echo "::error::Found $CRIT critical-severity vulnerability finding(s) — see scan output above"
+            jq -r '.results[]?.packages[] as $p | $p.vulnerabilities[]? | select(.database_specific.severity == "CRITICAL") | "- \($p.package.name)@\($p.package.version): \(.id) — \(.summary // "")"' osv-report.json
+            exit 1
+          fi
+
+      - name: Report high-severity findings (non-blocking)
+        if: always()
+        run: |
+          if [ ! -s osv-report.json ]; then
+            exit 0
+          fi
+          HIGH=$(jq '[.results[]?.packages[]?.vulnerabilities[]? | select(.database_specific.severity == "HIGH")] | length' osv-report.json)
+          if [ "$HIGH" -gt 0 ]; then
+            echo "::warning::Found $HIGH high-severity vulnerability finding(s):"
+            jq -r '.results[]?.packages[] as $p | $p.vulnerabilities[]? | select(.database_specific.severity == "HIGH") | "- \($p.package.name)@\($p.package.version): \(.id) — \(.summary // "")"' osv-report.json
+          else
+            echo "No high-severity findings"
+          fi
