@@ -81,6 +81,24 @@ export default async function RootLayout({
         >
           {children}
         </Layout>
+        {/* Nextra has position:fixed elements (navbar, sidebar) that cover >50% of
+            the viewport and trigger the widget's auto-hide logic. It hides by writing
+            an inline style into a closed shadow root. Patching attachShadow to open
+            mode before the widget script runs lets us inject an !important override. */}
+        <Script id="iris-shadow-fix" strategy="afterInteractive">{`
+          (function(){
+            var native=Element.prototype.attachShadow;
+            Element.prototype.attachShadow=function(init){
+              if(this.id!=='iris-widget-host')return native.call(this,init);
+              Element.prototype.attachShadow=native;
+              var root=native.call(this,Object.assign({},init,{mode:'open'}));
+              var s=document.createElement('style');
+              s.textContent='.iris-bubble{display:flex!important}';
+              root.appendChild(s);
+              return root;
+            };
+          })();
+        `}</Script>
         <Script
           src="https://iris-v2-fqgd.onrender.com/widget/iris-widget.js"
           data-iris-key="waap"
