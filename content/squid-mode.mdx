@@ -111,11 +111,16 @@ Yes. You can move an account between standard and WaaP Squid Mode and back again
 
 The gas tank is a balance held in your WaaP account that covers EVM network fees automatically. When your wallet doesn't have enough ETH to pay gas on a send, the tank covers the shortfall — you don't need to keep gas topped up on every chain separately.
 
-### Do I need to fund the gas tank to use Squid Mode?
+### Do I need to fund the gas tank before using Squid Mode?
 
-Not right now. Squid Mode signing carries a small per-signature network fee that is currently being subsidised — you won't be charged during this period.
+Yes. The Gas Tank must have a minimum balance before you can top up, send, swap, or perform any transaction in Squid Mode:
 
-For EVM sends, the gas tank can cover gas shortfalls automatically if you deposit ETH into it. Sui and Solana sends use your wallet's own native balance first; the tank steps in only if that falls short.
+- **Staging:** minimum 5 SUI
+- **Mainnet:** minimum $5 worth of SUI
+
+You fund the Gas Tank through your **Standard WaaP wallet**, not from within Squid Mode. Switch to your Standard account, go to **Gas Tank → Top Up**, and deposit the minimum. Once funded, that same Gas Tank balance is used for your Squid Mode transactions automatically — you don't need to top up again in Squid.
+
+**Setup flow:** Standard WaaP → Top up Gas Tank → Gas Tank balance is available in Squid Mode.
 
 ### How do I top up the gas tank?
 
