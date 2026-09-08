@@ -26,7 +26,7 @@ const KNOWN_SAFE = JSON.parse(
   readFileSync(new URL('./known-safe-patterns.json', import.meta.url), 'utf8')
 );
 
-const SOURCE_EXTENSIONS = new Set(['.js', '.jsx', '.ts', '.tsx']);
+const SOURCE_EXTENSIONS = new Set(['.js', '.jsx', '.ts', '.tsx', '.mjs', '.cjs']);
 const MDX_EXTENSIONS = new Set(['.mdx']);
 const ALL_SCANNABLE = new Set([...SOURCE_EXTENSIONS, ...MDX_EXTENSIONS]);
 
@@ -544,7 +544,7 @@ function scan() {
       continue;
     }
 
-    if (filePath.startsWith('.github/workflows/') && filePath.endsWith('.yml')) {
+    if (filePath.startsWith('.github/workflows/') && ['.yml', '.yaml'].includes(ext)) {
       const fullPath = resolve(filePath);
       if (existsSync(fullPath)) {
         const content = readFileSync(fullPath, 'utf8');
@@ -552,6 +552,9 @@ function scan() {
       }
       continue;
     }
+
+    // Scanner rules contain the very patterns they detect; infrastructure changes remain flagged.
+    if (filePath.startsWith('.github/scripts/')) continue;
 
     if (!ALL_SCANNABLE.has(ext)) continue;
 
