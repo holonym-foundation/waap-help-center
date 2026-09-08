@@ -17,18 +17,18 @@ export function FaqJsonLd(): ReactElement {
   const qa: [string, string][] = [
     [
       'What is WaaP?',
-      `WaaP (Wallet as a Protocol) is a wallet that doesn't require seed phrases, and that you never hold a private key for. Signing happens in secure hardware on WaaP's infrastructure, and your policy runs before every signature. In a WaaP Squid Mode account the signature additionally requires Ika's independent validator network, so no single party holds a key that can move your funds.`,
+      `WaaP, the human.tech Wallet Protocol, is a wallet that doesn't require seed phrases, and that you never hold a private key for. Signing happens in secure hardware on WaaP's infrastructure, and your policy runs before every signature. In a WaaP Squid Mode account the signature additionally requires Ika's independent validator network, so no single party holds a key that can move your funds.`,
     ],
     [
       'Is WaaP free?',
-      `WaaP is free for end users. For developers, integration is free, and free below 1,000 wallets. WaaP Squid Mode carries a per-signature network cost, which is being subsidised through launch.`,
+      `WaaP is free for end users. For developers, integration is free today. A WaaP Squid Mode account still funds Sui gas and the Ika network fee: each signature is paid in SUI from the account's gas tank.`,
     ],
     [
       'What chains does WaaP support?',
       `EVM chains (Ethereum, Optimism, Base, Arbitrum, Polygon, and more), Sui and Solana. Each chain is signed on natively: nothing is bridged and no asset moves between chains.`,
     ],
     [
-      'Where are my keys stored?',
+      'Where is my key stored?',
       `You don't hold one. There is no key or key share on your device and no seed phrase anywhere. What your account holds is an object on Sui that it owns, and that object is what authorises every signature.`,
     ],
     [
@@ -36,8 +36,8 @@ export function FaqJsonLd(): ReactElement {
       `You can recover access using any login method you've set up (email, phone, Google, etc.). We recommend setting up multiple methods.`,
     ],
     [
-      'Can WaaP access my funds?',
-      `No. WaaP only holds one share of your key. Without your share, no one, including WaaP, can move your funds.`,
+      'Can WaaP move my funds?',
+      `Your policy runs before every signature, and anything outside your limits waits for your approval. In a WaaP Squid Mode account, a signature also requires Ika's validator network, so no single party, including us, holds a key that can move your funds.`,
     ],
     [
       'How do I back up my wallet?',
