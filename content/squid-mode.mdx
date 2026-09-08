@@ -111,7 +111,7 @@ Yes. You can move an account between standard and WaaP Squid Mode and back again
 
 The gas tank is a balance held in your WaaP account that pays network fees for you. It holds each token separately, in that token's own units, so your SUI balance pays Sui fees and your ETH balance pays EVM gas. Nothing is converted between them.
 
-In the wallet today the tank pays Sui and Solana network fees, and it pays the fee on a WaaP Squid Mode signature. EVM sponsorship from a tank is live in the protocol, but the wallet's own EVM send screen does not draw on it yet and says "Gas Tank is coming soon."
+The tank pays Sui and Solana network fees, it pays the fee on a WaaP Squid Mode signature, and on an EVM send it covers the gas when your wallet holds the amount you are sending but not the gas on top. The one thing the wallet cannot do yet is take an ETH deposit: its top-up screen offers Sui and Solana, and ETH reaches the tank from the SDK, the developer portal or the CLI.
 
 ### Do I need to fund the gas tank before using WaaP Squid Mode?
 
@@ -145,7 +145,7 @@ What you see depends on the surface.
 
 On a Sui or Solana transaction, or a swap, the wallet tells you the tank cannot cover the fee and offers a **Top up** action. Fund the tank and try again.
 
-On an EVM send, the review screen reads "Insufficient gas. Add ETH to this wallet to continue. Gas Tank is coming soon." That screen carries no top-up action, because the tank is not yet wired to it. Send ETH to the wallet address itself to continue.
+On an EVM send where neither your wallet nor your tank can cover the gas, the review screen reads "Insufficient gas. Add ETH to this wallet to continue. Gas Tank is coming soon." It offers no top-up button, because the screen behind it cannot take an ETH deposit. Send ETH to the wallet address itself to continue.
 
 On a Squid Mode signature, an empty balance fails the signature outright. The request is refused as unpaid, and nothing is signed or broadcast.
 
