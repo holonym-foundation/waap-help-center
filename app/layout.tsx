@@ -100,7 +100,7 @@ export default async function RootLayout({
           })();
         `}</Script>
         <Script
-          src="https://iris-v2-fqgd.onrender.com/widget/iris-widget.js"
+          src="https://iris.human.tech/widget/iris-widget.js"
           data-iris-key="waap"
           strategy="afterInteractive"
         />
