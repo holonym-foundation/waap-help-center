@@ -34,3 +34,39 @@ View all your past transactions in the wallet interface. Each transaction shows:
 - Recipient or sender address
 - Status (pending, confirmed, failed)
 - Date and time
+
+## Wallet Linking
+
+Wallet Linking lets you connect external EVM wallets to your WaaP account. Linked wallets are grouped with your primary WaaP wallet into an identity cluster, which lets supported apps recognise that those wallets belong to you.
+
+Linking is not a transfer of assets. It does not merge balances or automatically change your Passport score.
+
+### How to link a wallet
+
+1. Open **Your Account** in the wallet sidebar.
+2. Under **Linked Wallets**, select **Link a New Wallet**.
+3. Connect via browser wallet (MetaMask, Rabby) or WalletConnect.
+4. Sign the message in your external wallet to prove you own it.
+5. The wallet appears in your Linked Wallets list.
+
+**Note:** Sui wallets and linking a second WaaP wallet are not yet supported.
+
+### How to unlink a wallet
+
+Open **Your Account → Linked Wallets**, open the **⋯** menu on the wallet, and select **Unlink wallet**. This starts a 30-day cooldown before the address can be linked to a different account. During those 30 days:
+
+- The wallet's stamps stop counting for your account immediately.
+- The wallet does not use one of your 5 slots, so you can link another wallet.
+- You can cancel the unlink from the same **⋯** menu to restore it.
+
+After 30 days, the wallet is removed and any account can link it.
+
+### Limits
+
+- EVM wallets only.
+- Up to 5 active linked wallets per account.
+- Each address can only be linked to one account at a time.
+
+### Website access
+
+A website that uses WaaP must ask your permission before it can see or change your linked wallets. To remove a site's access, go to **Settings → Privacy & security → Linked-wallet access** and select **Remove access**.

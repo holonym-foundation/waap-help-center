@@ -53,6 +53,32 @@ WaaP is designed to provide hardware-wallet-level security without a physical de
 
 Key export is available for users who need it. This generates a standard private key you can import elsewhere. Note: once exported, your security model changes to a traditional single-key setup.
 
+## Wallet Linking
+
+### What is Wallet Linking?
+
+Wallet Linking connects the external EVM wallets you own to your WaaP account. You prove ownership by signing a message with each wallet. Linked wallets are grouped into an identity cluster that supported apps, including Passport, can recognise as belonging to you.
+
+### How many wallets can I link?
+
+Up to 5 active EVM wallets per account. Sui wallets and linking a second WaaP wallet are not yet supported.
+
+### Can I link a wallet that someone else already linked?
+
+No. Each wallet address can only be linked to one WaaP account at a time. If the address is already linked to another account — or is in that account's 30-day unlink cooldown — you will see an error.
+
+### Is there a cooldown after unlinking?
+
+Yes. After you start an unlink, the wallet enters a 30-day period during which no other account can link it. Your own account can still cancel the unlink and restore it during those 30 days. After 30 days, the wallet is removed and any account can link it.
+
+### Does a wallet in its cooldown use one of my 5 slots?
+
+No. A wallet in its 30-day unlink cooldown is not counted as active, so your 5-wallet limit only applies to active linked wallets.
+
+### Does linking wallets increase my Passport score?
+
+Not automatically. A stamp counts once — if two linked wallets hold the same stamp, it still counts once. Linking consolidates your identity cluster but does not add points directly.
+
 ## WaaP for Agents
 
 ### Can my WaaP wallet be used by AI agents?
